@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Background from "./Background.jsx";
-import ExtensionCard from "./ExtensionCard";
+import ExtensionCard from "./ui/ExtensionCard.jsx";
 import gmail from '../assets/gmail.png';
 import leetcode from '../assets/leetcode.png';
 import font from '../assets/font1.png';
