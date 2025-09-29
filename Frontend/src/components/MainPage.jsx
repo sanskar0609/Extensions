@@ -8,8 +8,8 @@ import Navbar from "./Navbar";
 
 // Example images for extensions
 const extensionImages = {
-  "Focus Timer": gmail,
-  "Figma Helper": leetcode,
+  "Gmail": gmail,
+  "Leetcode": leetcode,
   "AI Writer": font,
 };
 
@@ -34,24 +34,26 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
 
   const categories = [
     { id: 1, name: "Productivity" },
-    { id: 2, name: "Design Tools" },
+    { id: 2, name: "AI tools" },
     { id: 3, name: "AI Assistants" },
   ];
 
   const extensions = [
     {
       id: 1,
-      name: "Focus Timer",
+      name: "Gmail",
       category: "Productivity",
-      description: "Boost your focus sessions.",
+      description: "Supercharge your Gmail experience with AI — summarize long emails instantly, generate smart AI replies, and use speech-to-text to draft messages hands-free",
       color: "bg-white/30",
+      downloadUrl:"https://drive.google.com/drive/folders/1ayivPExIMJaVofcbq2ZKhYT2vISaAagW?usp=drive_link",
     },
     {
       id: 2,
-      name: "Figma Helper",
-      category: "Design Tools",
-      description: "Quick Figma shortcuts.",
+      name: "Leetcode",
+      category: "AI tools",
+      description: "Crack LeetCode faster with AI — get detailed question explanations, smart hints, and step-by-step solutions instantly.",
       color: "bg-white/30",
+      downloadUrl:"https://github.com/sanskar0609/leetcode-extension",
     },
     {
       id: 3,

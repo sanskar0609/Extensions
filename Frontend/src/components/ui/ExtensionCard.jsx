@@ -2,12 +2,13 @@ import React from "react";
 
 const ExtensionCard = ({ extension, image, isAuthenticated, handleDownload, redirectToLogin }) => {
   const handleClick = () => {
-    if (isAuthenticated) {
-      handleDownload(extension.name);
-    } else {
-      redirectToLogin(); // Redirect to login page
-    }
-  };
+  if (isAuthenticated) {
+    handleDownload(extension.name); // optional analytics or tracking
+    window.open(extension.downloadUrl, "_blank"); // ✅ opens download link
+  } else {
+    redirectToLogin();
+  }
+};
 
   return (
     <div
