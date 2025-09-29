@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ChevronRight, Menu, X, Zap, Shield, Code } from "lucide-react";
 import Silk from "./ui/Silk"; // Make sure the path is correct
-import TextType from "./ui/TextType";
+import TextType from "./ui/TextType.jsx";
 import logo from "../assets/logo.png";
 const LandingPage = ({ setCurrentPage }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

@@ -1,6 +1,6 @@
 import React from "react";
-import Background from "./Background";
-import Navbar from "./Navbar";
+import Background from "./Background.jsx";
+import Navbar from "./Navbar.jsx";
 import axios from "axios";
 
 const API_BASE = "https://extensions-kphf.onrender.com/api/auth"; // Backend URL

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import LandingPage from './LandingPage';
-import LoginPage from './LoginPage';
-import SignupPage from './SignupPage';
-import MainPage from './MainPage';
+import LandingPage from './LandingPage.jsx';
+import LoginPage from './LoginPage.jsx';
+import SignupPage from './SignupPage.jsx';
+import MainPage from './MainPage.jsx';
 
 const ExtensionMarketplace = () => {
   const [currentPage, setCurrentPage] = useState('landing');
