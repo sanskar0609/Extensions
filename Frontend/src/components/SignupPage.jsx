@@ -3,7 +3,7 @@ import Background from "./Background";
 import Navbar from "./Navbar";
 import axios from "axios";
 
-const API_BASE = "http://localhost:5000/api/auth"; // Backend URL
+const API_BASE = "https://extensions-kphf.onrender.com/api/auth"; // Backend URL
 
 const SignupPage = ({
   name,
