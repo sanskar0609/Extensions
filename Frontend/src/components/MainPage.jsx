@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Background from "./Background";
 import CardNav from "./ui/CardNav";
-import ExtensionCard from "./Extensioncard"; 
+import ExtensionCard from "./ExtensionCard"; 
 import gmail from '../assets/gmail.png';
 import leetcode from '../assets/leetcode.png';
 import font from '../assets/font1.png';
