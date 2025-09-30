@@ -3,6 +3,7 @@ import CardNav from "./ui/CardNav"; // ✅ Make sure you import CardNav
 import logo from "../assets/logo.png";
 import { href } from "react-router-dom";
 
+
 const Navbar = ({ setCurrentPage }) => {
   const items = [
     {
@@ -11,7 +12,7 @@ const Navbar = ({ setCurrentPage }) => {
       textColor: "#fff",
       links: [
         { label: "Company", ariaLabel: "About Company", href: "https://www.linkedin.com/in/sanskar-sontakke-550347318/"},
-        { label: "Careers", ariaLabel: "About Careers",href: "https://twitter.com/sanskar0609"}
+        { label: "About Us", ariaLabel: "About Us",href: "https://twitter.com/sanskar0609" ,onClick: () => setCurrentPage("aboutus")}
       ]
     },
     {

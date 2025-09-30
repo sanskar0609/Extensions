@@ -3,6 +3,7 @@ import LandingPage from "./components/LandingPage";
 import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
 import MainPage from "./components/MainPage";
+import AboutUs from "./components/AboutUs.jsx";
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState("landing");
@@ -63,6 +64,7 @@ const App = () => {
            setCurrentPage={setCurrentPage}
         />
       )}
+      {currentPage === "aboutus" && <AboutUs setCurrentPage={setCurrentPage} />}
 
       {/* Main Page (accessible both logged-in or guest) */}
       {currentPage === "main" && (
