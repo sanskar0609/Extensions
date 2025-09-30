@@ -11,7 +11,7 @@ const Navbar = ({ setCurrentPage }) => {
       bgColor: "#0D0716",
       textColor: "#fff",
       links: [
-        { label: "Company", ariaLabel: "About Company", href: "https://www.linkedin.com/in/sanskar-sontakke-550347318/"},
+        { label: "Developer", ariaLabel: "About Company", href: "https://www.linkedin.com/in/sanskar-sontakke-550347318/",onClick: () => setCurrentPage("developer")},
         { label: "About Us", ariaLabel: "About Us",href: "https://twitter.com/sanskar0609" ,onClick: () => setCurrentPage("aboutus")}
       ]
     },
