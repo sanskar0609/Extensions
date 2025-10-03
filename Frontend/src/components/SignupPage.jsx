@@ -3,7 +3,8 @@ import Background from "./Background.jsx";
 import Navbar from "./Navbar.jsx";
 import axios from "axios";
 
-const API_BASE = "https://extensions-kphf.onrender.com/api/auth"; // Backend URL
+const API_BASE = "https://extensions-kphf.onrender.com/api/auth";
+// const API_BASE = "http://localhost:5000/api/auth";
 
 const SignupPage = ({
   name,
@@ -37,6 +38,11 @@ const SignupPage = ({
     } catch (err) {
       alert(err.response?.data?.message || "Signup failed");
     }
+  };
+
+  // 🔹 GitHub OAuth signup/login
+  const handleGithubLogin = () => {
+    window.location.href = `${API_BASE}/github`;
   };
 
   return (
@@ -74,9 +80,25 @@ const SignupPage = ({
 
         <button
           onClick={handleSignup} // 🔹 backend-connected signup
-          className="w-full bg-white/80 text-green-600 font-semibold py-3 rounded-lg shadow-md hover:bg-white hover:text-green-700 transition duration-300"
+          className="w-full bg-white/80 text-green-600 font-semibold py-3 rounded-lg shadow-md hover:bg-white hover:text-green-700 transition duration-300 mb-3"
         >
           Sign Up
+        </button>
+
+        {/* 🔹 GitHub Signup/Login Button */}
+        <button
+          onClick={handleGithubLogin}
+          className="w-full bg-gray-800 text-white font-semibold py-3 rounded-lg shadow-md hover:bg-gray-900 transition duration-300 mb-4 flex items-center justify-center gap-2"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303... (GitHub logo path)"/>
+          </svg>
+          Sign Up with GitHub
         </button>
 
         <p className="text-center text-sm mt-4 text-gray-700">

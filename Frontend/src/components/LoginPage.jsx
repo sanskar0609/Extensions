@@ -11,25 +11,27 @@ const LoginPage = ({
   onEmailChange,
   onPasswordChange,
   onSwitchToSignup,
-  setCurrentPage, // ✅ we will use this to redirect
+  setCurrentPage,
 }) => {
 
-  // Backend login function
   const handleLogin = async () => {
     try {
       const res = await axios.post(`${API_BASE}/login`, { email, password });
-
       if (res.status === 200) {
         const data = res.data;
-        localStorage.setItem("token", data.token); // save JWT
+        localStorage.setItem("token", data.token);
         alert(`Login successful! Welcome ${data.user.name}`);
-
-        // ✅ Redirect to MainPage
         setCurrentPage("main");
       }
     } catch (err) {
       alert(err.response?.data?.message || "Login failed");
     }
+  };
+
+  // 🔹 GitHub OAuth login
+  const handleGithubLogin = () => {
+    // Replace this with your backend GitHub OAuth URL
+    window.location.href = `${API_BASE}/github`;
   };
 
   return (
@@ -58,10 +60,26 @@ const LoginPage = ({
         />
 
         <button
-          onClick={handleLogin} // 🔹 backend-connected login
-          className="w-full bg-white/80 text-blue-600 font-semibold py-3 rounded-lg shadow-md hover:bg-white hover:text-blue-700 transition duration-300"
+          onClick={handleLogin}
+          className="w-full bg-white/80 text-blue-600 font-semibold py-3 rounded-lg shadow-md hover:bg-white hover:text-blue-700 transition duration-300 mb-3"
         >
           Login
+        </button>
+
+        {/* 🔹 GitHub Login Button */}
+        <button
+          onClick={handleGithubLogin}
+          className="w-full bg-gray-800 text-white font-semibold py-3 rounded-lg shadow-md hover:bg-gray-900 transition duration-300 mb-4 flex items-center justify-center gap-2"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303... (GitHub logo path)"/>
+          </svg>
+          Login with GitHub
         </button>
 
         <p className="text-center text-sm mt-4 text-gray-700">
