@@ -32,6 +32,8 @@ const LoginPage = ({
   const handleGithubLogin = () => {
     // Replace this with your backend GitHub OAuth URL
     window.location.href = `${API_BASE}/github`;
+    // Show popup / alert
+  alert("GitHub login successful 🎉");
   };
 
   return (

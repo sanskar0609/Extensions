@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Background from "./Background.jsx";
 import ExtensionCard from "./ui/ExtensionCard.jsx";
-import gmail from '../assets/gmail.png';
-import leetcode from '../assets/leetcode.png';
-import font from '../assets/font1.png';
+import gmail from "../assets/gmail.png";
+import leetcode from "../assets/leetcode.png";
+import font from "../assets/font1.png";
 import Navbar from "./Navbar";
 
 // Example images for extensions
 const extensionImages = {
-  "Gmail": gmail,
-  "Leetcode": leetcode,
+  Gmail: gmail,
+  Leetcode: leetcode,
   "AI Writer": font,
 };
 
@@ -17,18 +17,23 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("Guest");
 
+  // Check login state (localStorage for normal login, sessionStorage for GitHub login)
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsAuthenticated(true);
-
-      // Decode JWT to get user name
       try {
         const payload = JSON.parse(atob(token.split(".")[1]));
-        setUserName(payload.name || "User"); // ✅ use name from JWT
+        setUserName(payload.name || "User");
       } catch {
         setUserName("User");
       }
+    } else if (sessionStorage.getItem("githubLoggedIn")) {
+      setIsAuthenticated(true);
+      setUserName("GitHub User");
+    } else {
+      setIsAuthenticated(false);
+      setUserName("Guest");
     }
   }, []);
 
@@ -43,17 +48,20 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
       id: 1,
       name: "Gmail",
       category: "Productivity",
-      description: "Supercharge your Gmail experience with AI — summarize long emails instantly, generate smart AI replies, and use speech-to-text to draft messages hands-free",
+      description:
+        "Supercharge your Gmail experience with AI — summarize long emails instantly, generate smart AI replies, and use speech-to-text to draft messages hands-free",
       color: "bg-white/30",
-      downloadUrl:"https://drive.google.com/drive/folders/1ayivPExIMJaVofcbq2ZKhYT2vISaAagW?usp=drive_link",
+      downloadUrl:
+        "https://drive.google.com/drive/folders/1ayivPExIMJaVofcbq2ZKhYT2vISaAagW?usp=drive_link",
     },
     {
       id: 2,
       name: "Leetcode",
       category: "AI tools",
-      description: "Crack LeetCode faster with AI — get detailed question explanations, smart hints, and step-by-step solutions instantly.",
+      description:
+        "Crack LeetCode faster with AI — get detailed question explanations, smart hints, and step-by-step solutions instantly.",
       color: "bg-white/30",
-      downloadUrl:"https://github.com/sanskar0609/leetcode-extension",
+      downloadUrl: "https://github.com/sanskar0609/leetcode-extension",
     },
     {
       id: 3,
@@ -64,8 +72,19 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
     },
   ];
 
+  // GitHub login (frontend-only, session)
+  const handleGitHubLogin = () => {
+    sessionStorage.setItem("githubLoggedIn", "true");
+    setIsAuthenticated(true);
+    setUserName("GitHub User");
+    // Show popup / alert
+  alert("GitHub login successful 🎉");
+  };
+
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
+    sessionStorage.removeItem("githubLoggedIn");
     setIsAuthenticated(false);
     setUserName("Guest");
     setCurrentPage("landing");
