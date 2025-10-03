@@ -16,6 +16,7 @@ const extensionImages = {
 const MainPage = ({ handleDownload, setCurrentPage }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("Guest");
+  const [showLoginSuccess, setShowLoginSuccess] = useState(false);
 
   // Check login state (localStorage for normal login, sessionStorage for GitHub login)
   useEffect(() => {
@@ -77,8 +78,10 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
     sessionStorage.setItem("githubLoggedIn", "true");
     setIsAuthenticated(true);
     setUserName("GitHub User");
-    // Show popup / alert
-  alert("GitHub login successful 🎉");
+  
+  // Show popup
+  setShowLoginSuccess(true);
+  setTimeout(() => setShowLoginSuccess(false), 2000); // hide after 2s
   };
 
   // Logout
@@ -92,6 +95,12 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
 
   return (
     <div className="relative min-h-screen p-6">
+       {showLoginSuccess && (
+      <div className="fixed top-10 right-10 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        GitHub login successful 🎉
+      </div>
+    )}
+
       <Background />
       <Navbar setCurrentPage={setCurrentPage} />
 
