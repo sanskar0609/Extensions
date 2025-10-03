@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Background from "./Background.jsx";
 import Navbar from "./Navbar.jsx";
 import axios from "axios";
@@ -15,6 +15,20 @@ const LoginPage = ({
 }) => {
   const [showLoginSuccess, setShowLoginSuccess] = useState(false);
 
+  // ✅ Function to store GitHub token from URL
+  const storeGithubToken = () => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (token) {
+      localStorage.setItem("token", token);
+      setCurrentPage("main"); // redirect to main page
+    }
+  };
+
+  useEffect(() => {
+    storeGithubToken(); // check for GitHub token on page load
+  }, []);
+
   const handleLogin = async () => {
     try {
       const res = await axios.post(`${API_BASE}/login`, { email, password });
@@ -30,14 +44,8 @@ const LoginPage = ({
   };
 
   const handleGithubLogin = () => {
-    // For backend OAuth, redirect
+    // Redirect to backend GitHub OAuth
     window.location.href = `${API_BASE}/github`;
-
-    // For frontend-only demo login (session):
-    // sessionStorage.setItem("githubLoggedIn", "true");
-    // setShowLoginSuccess(true);
-    // setTimeout(() => setShowLoginSuccess(false), 2000);
-    // setCurrentPage("main");
   };
 
   return (
@@ -83,14 +91,7 @@ const LoginPage = ({
           onClick={handleGithubLogin}
           className="w-full bg-gray-800 text-white font-semibold py-3 rounded-lg shadow-md hover:bg-gray-900 transition duration-300 mb-4 flex items-center justify-center gap-2"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <path fillRule="evenodd" clipRule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.84 1.238 1.84 1.238 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.304-5.466-1.332-5.466-5.931 0-1.31.469-2.381 1.236-3.222-.124-.303-.536-1.524.116-3.176 0 0 1.008-.322 3.3 1.23a11.52 11.52 0 013.003-.403c1.018.005 2.042.137 3.003.403 2.291-1.552 3.297-1.23 3.297-1.23.653 1.652.242 2.873.119 3.176.77.841 1.235 1.912 1.235 3.222 0 4.61-2.805 5.625-5.475 5.921.43.372.815 1.102.815 2.222v3.293c0 .319.216.694.825.576C20.565 21.796 24 17.303 24 12c0-6.627-5.373-12-12-12z"/>
-          </svg>
+          {/* GitHub icon */}
           Login with GitHub
         </button>
 
