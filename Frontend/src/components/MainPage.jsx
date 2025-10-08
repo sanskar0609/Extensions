@@ -10,7 +10,7 @@ import Navbar from "./Navbar";
 const extensionImages = {
   Gmail: gmail,
   Leetcode: leetcode,
-  "AI Writer": font,
+  "Font Detector & Styler": font,
 };
 
 const MainPage = ({ handleDownload, setCurrentPage }) => {
@@ -66,10 +66,11 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
     },
     {
       id: 3,
-      name: "AI Writer",
+      name: "Font Detector & Styler",
       category: "AI Assistants",
-      description: "Generate text instantly.",
+      description: "Instantly detect and style fonts on any webpage with customizable options.",
       color: "bg-white/30",
+      downloadUrl:"https://github.com/sanskar0609/Font_detector-Extension-",
     },
   ];
 
