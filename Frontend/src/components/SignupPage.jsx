@@ -3,7 +3,7 @@ import Background from "./Background.jsx";
 import Navbar from "./Navbar.jsx";
 import axios from "axios";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "https://extensions-kphf.onrender.com";
 
 const SignupPage = ({
   name,
