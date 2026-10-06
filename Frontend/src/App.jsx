@@ -1,15 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LandingPage from "./components/LandingPage";
 import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
 import MainPage from "./components/MainPage";
 import AboutUs from "./components/AboutUs.jsx";
 import Developer from "./components/Developer";
+import CustomAlert from "./components/ui/CustomAlert.jsx";
 
 const App = () => {
-  const [currentPage, setCurrentPage] = useState("landing");
+  const [currentPage, setCurrentPage] = useState(() => {
+    return localStorage.getItem("currentPage") || "landing";
+  });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+
+  const [alertMessage, setAlertMessage] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("currentPage", currentPage);
+  }, [currentPage]);
+
+  // Override default browser alert
+  useEffect(() => {
+    window.alert = (message) => {
+      setAlertMessage(message);
+    };
+  }, []);
 
   const handleAuth = () => {
     const { email, password } = formData;
@@ -21,16 +37,14 @@ const App = () => {
   };
 
   const handleDownload = (extensionName) => {
-    if (!isAuthenticated) {
-      alert("🔒 Please log in or sign up to download this extension.");
-      setCurrentPage("login");
-    } else {
-      alert(`⬇️ Downloading ${extensionName}...`);
-    }
+    // Analytics/alert can stay, but it should not block download
+    alert(`⬇️ Downloading ${extensionName}...`);
   };
 
   return (
     <>
+      <CustomAlert message={alertMessage} onClose={() => setAlertMessage("")} />
+
       {/* Landing Page */}
       {currentPage === "landing" && (
         <LandingPage
@@ -47,7 +61,7 @@ const App = () => {
           onPasswordChange={(e) => setFormData({ ...formData, password: e.target.value })}
           onLogin={handleAuth}
           onSwitchToSignup={() => setCurrentPage("signup")}
-           setCurrentPage={setCurrentPage}
+          setCurrentPage={setCurrentPage}
         />
       )}
 
@@ -62,7 +76,7 @@ const App = () => {
           onPasswordChange={(e) => setFormData({ ...formData, password: e.target.value })}
           onSignup={handleAuth}
           onSwitchToLogin={() => setCurrentPage("login")}
-           setCurrentPage={setCurrentPage}
+          setCurrentPage={setCurrentPage}
         />
       )}
       {currentPage === "aboutus" && <AboutUs setCurrentPage={setCurrentPage} />}

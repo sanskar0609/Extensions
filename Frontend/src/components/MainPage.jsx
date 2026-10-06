@@ -4,19 +4,23 @@ import ExtensionCard from "./ui/ExtensionCard.jsx";
 import gmail from "../assets/gmail.png";
 import leetcode from "../assets/leetcode.png";
 import font from "../assets/font1.png";
+import contextLens from "../assets/ContextLens_AI.png";
 import Navbar from "./Navbar";
+import Footer from "./Footer.jsx";
 
 // Example images for extensions
 const extensionImages = {
   Gmail: gmail,
   Leetcode: leetcode,
   "Font Detector & Styler": font,
+  "ContextLens AI": contextLens,
 };
 
 const MainPage = ({ handleDownload, setCurrentPage }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("Guest");
   const [showLoginSuccess, setShowLoginSuccess] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   // Check login state (localStorage for normal login, sessionStorage for GitHub login)
   useEffect(() => {
@@ -39,6 +43,7 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
   }, []);
 
   const categories = [
+    { id: 0, name: "All" },
     { id: 1, name: "Productivity" },
     { id: 2, name: "AI tools" },
     { id: 3, name: "AI Assistants" },
@@ -70,7 +75,15 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
       category: "AI Assistants",
       description: "Instantly detect and style fonts on any webpage with customizable options.",
       color: "bg-white/30",
-      downloadUrl:"https://github.com/sanskar0609/Font_detector-Extension-",
+      downloadUrl: "https://github.com/sanskar0609/Font_detector-Extension-",
+    },
+    {
+      id: 4,
+      name: "ContextLens AI",
+      category: "Productivity",
+      description: "Chat with any webpage or PDF using AI — get instant answers, summaries, and insights directly from your browser.",
+      color: "bg-white/30",
+      downloadUrl: "https://github.com/sanskar0609/ContextLens-AI",
     },
   ];
 
@@ -79,10 +92,10 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
     sessionStorage.setItem("githubLoggedIn", "true");
     setIsAuthenticated(true);
     setUserName("GitHub User");
-  
-  // Show popup
-  setShowLoginSuccess(true);
-  setTimeout(() => setShowLoginSuccess(false), 2000); // hide after 2s
+
+    // Show popup
+    setShowLoginSuccess(true);
+    setTimeout(() => setShowLoginSuccess(false), 2000); // hide after 2s
   };
 
   // Logout
@@ -96,28 +109,20 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
 
   return (
     <div className="relative min-h-screen p-6">
-       {showLoginSuccess && (
-      <div className="fixed top-10 right-10 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
-        GitHub login successful 🎉
-      </div>
-    )}
+      {showLoginSuccess && (
+        <div className="fixed top-10 right-10 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+          GitHub login successful 🎉
+        </div>
+      )}
 
       <Background />
       <Navbar setCurrentPage={setCurrentPage} />
 
       <main className="relative z-10 mt-20">
-        <header className="flex justify-between items-center mb-8 text-white">
-          <h1 className="text-3xl font-bold text-center mt--10">
+        <header className="flex flex-col items-center justify-center mb-8 text-white pt-4 md:pt-0">
+          <h1 className="text-3xl font-bold text-center">
             Welcome, {userName} 👋
           </h1>
-          {isAuthenticated && (
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-            >
-              Logout
-            </button>
-          )}
         </header>
 
         {/* Categories */}
@@ -127,21 +132,25 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
           </h2>
           <div className="flex gap-3 flex-wrap justify-center">
             {categories.map((cat) => (
-              <span
+              <button
                 key={cat.id}
-                className="bg-blue-700/20 text-blue-300 px-4 py-2 rounded-full text-sm font-medium cursor-pointer hover:bg-blue-700/30"
+                onClick={() => setSelectedCategory(cat.name)}
+                className={`px-4 py-2 rounded-full text-sm font-medium cursor-pointer transition ${selectedCategory === cat.name
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-blue-700/20 text-blue-300 hover:bg-blue-700/30"
+                  }`}
               >
                 {cat.name}
-              </span>
+              </button>
             ))}
           </div>
         </section>
 
         {/* Extensions */}
         <section>
-          <h2 className="text-xl font-semibold mb-4 text-white">Extensions</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {extensions.map((ext) => (
+          <h2 className="text-xl font-semibold mb-6 text-white text-center">Extensions</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-32 max-w-6xl mx-auto">
+            {(selectedCategory === "All" ? extensions : extensions.filter(ext => ext.category === selectedCategory)).map((ext) => (
               <ExtensionCard
                 key={ext.id}
                 extension={ext}
@@ -154,6 +163,9 @@ const MainPage = ({ handleDownload, setCurrentPage }) => {
           </div>
         </section>
       </main>
+
+      {/* Footer */}
+      <Footer setCurrentPage={setCurrentPage} />
     </div>
   );
 };

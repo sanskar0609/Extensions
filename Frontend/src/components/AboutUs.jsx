@@ -35,7 +35,7 @@ export default function AboutUs({ setCurrentPage }) {
   ];
 
   const stats = [
-    { number: "3+", label: "Extensions Available" },
+    { number: "4+", label: "Extensions Available" },
     { number: "10+", label: "Active Users" },
     { number: "5+", label: "Years of Development" },
     { number: "99%", label: "User Satisfaction" },

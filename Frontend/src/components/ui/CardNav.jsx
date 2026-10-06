@@ -14,6 +14,8 @@ const CardNav = ({
   buttonBgColor,
   buttonTextColor,
   setCurrentPage,
+  isAuthenticated,
+  handleLogout,
 }) => {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -137,22 +139,37 @@ const CardNav = ({
     if (el) cardsRef.current[i] = el;
   };
 
+  // Close menu when clicking outside
+  useLayoutEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isExpanded && navRef.current && !navRef.current.contains(event.target)) {
+        const tl = tlRef.current;
+        if (tl) {
+          setIsHamburgerOpen(false);
+          tl.eventCallback("onReverseComplete", () => setIsExpanded(false));
+          tl.reverse();
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isExpanded]);
+
   return (
     <div
       className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[90%] max-w-[800px] z-[99] top-[1.2em] md:top-[2em] ${className}`}
     >
       <nav
         ref={navRef}
-        className={`card-nav ${
-          isExpanded ? "open" : ""
-        } block h-[60px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height]`}
+        className={`card-nav ${isExpanded ? "open" : ""
+          } block h-[60px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height]`}
         style={{ backgroundColor: baseColor }}
       >
-        <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between p-2 pl-[1.1rem] z-[2]">
+        <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between px-4 py-2 z-[2]">
           <div
-            className={`hamburger-menu ${
-              isHamburgerOpen ? "open" : ""
-            } group h-full flex flex-col items-center justify-center cursor-pointer gap-[6px] order-2 md:order-none`}
+            className={`hamburger-menu ${isHamburgerOpen ? "open" : ""
+              } group h-full flex flex-col items-center justify-center cursor-pointer gap-[6px] order-3 md:order-none ml-2 md:ml-0`}
             onClick={toggleMenu}
             role="button"
             aria-label={isExpanded ? "Close menu" : "Open menu"}
@@ -160,42 +177,49 @@ const CardNav = ({
             style={{ color: menuColor || "#000" }}
           >
             <div
-              className={`hamburger-line w-[30px] h-[2px] bg-current transition-[transform,opacity,margin] duration-300 ease-linear [transform-origin:50%_50%] ${
-                isHamburgerOpen ? "translate-y-[4px] rotate-45" : ""
-              } group-hover:opacity-75`}
+              className={`hamburger-line w-[30px] h-[2px] bg-current transition-[transform,opacity,margin] duration-300 ease-linear [transform-origin:50%_50%] ${isHamburgerOpen ? "translate-y-[4px] rotate-45" : ""
+                } group-hover:opacity-75`}
             />
             <div
-              className={`hamburger-line w-[30px] h-[2px] bg-current transition-[transform,opacity,margin] duration-300 ease-linear [transform-origin:50%_50%] ${
-                isHamburgerOpen ? "-translate-y-[4px] -rotate-45" : ""
-              } group-hover:opacity-75`}
+              className={`hamburger-line w-[30px] h-[2px] bg-current transition-[transform,opacity,margin] duration-300 ease-linear [transform-origin:50%_50%] ${isHamburgerOpen ? "-translate-y-[4px] -rotate-45" : ""
+                } group-hover:opacity-75`}
             />
           </div>
 
-          <div className="logo-container flex items-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 order-1 md:order-none">
+          <div className="logo-container flex items-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 order-1 md:order-none mr-auto md:mr-0">
             <img
               src={logo}
               alt={logoAlt}
-              className="logo h-[46px] cursor-pointer" // make it clickable
+              className="logo h-[35px] md:h-[46px] cursor-pointer" // make it clickable
               onClick={() => setCurrentPage("landing")} // navigate to landing
             />
           </div>
 
-          <button
-            type="button"
-            className="card-nav-cta-button hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 h-full font-medium cursor-pointer transition-colors duration-300"
-            style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
-            onClick={() => setCurrentPage("login")} // ✅ Switch page via state
-          >
-            Log in
-          </button>
+          {isAuthenticated ? (
+            <button
+              type="button"
+              className="card-nav-cta-button inline-flex items-center justify-center border-0 rounded-[calc(0.75rem-0.2rem)] px-3 md:px-4 h-[35px] md:h-full text-sm md:text-base font-medium cursor-pointer transition-colors duration-300 bg-red-500 text-white hover:bg-red-600 order-2 md:order-none"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="card-nav-cta-button inline-flex items-center justify-center border-0 rounded-[calc(0.75rem-0.2rem)] px-3 md:px-4 h-[35px] md:h-full text-sm md:text-base font-medium cursor-pointer transition-colors duration-300 order-2 md:order-none"
+              style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+              onClick={() => setCurrentPage("login")} // ✅ Switch page via state
+            >
+              Log in
+            </button>
+          )}
         </div>
 
         <div
-          className={`card-nav-content absolute left-0 right-0 top-[60px] bottom-0 p-2 flex flex-col items-stretch gap-2 justify-start z-[1] ${
-            isExpanded
-              ? "visible pointer-events-auto"
-              : "invisible pointer-events-none"
-          } md:flex-row md:items-end md:gap-[12px]`}
+          className={`card-nav-content absolute left-0 right-0 top-[60px] bottom-0 p-2 flex flex-col items-stretch gap-2 justify-start z-[1] ${isExpanded
+            ? "visible pointer-events-auto"
+            : "invisible pointer-events-none"
+            } md:flex-row md:items-end md:gap-[12px]`}
           aria-hidden={!isExpanded}
         >
           {(items || []).slice(0, 3).map((item, idx) => (

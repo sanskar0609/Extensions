@@ -3,7 +3,8 @@ import Background from "./Background.jsx";
 import Navbar from "./Navbar.jsx";
 import axios from "axios";
 
-const API_BASE = "https://extensions-kphf.onrender.com/api/auth";
+// const API_BASE = "https://extensions-kphf.onrender.com/api/auth";
+const API_BASE = "http://localhost:5000";
 
 const LoginPage = ({
   email,
@@ -31,7 +32,7 @@ const LoginPage = ({
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post(`${API_BASE}/login`, { email, password });
+      const res = await axios.post(`${API_BASE}/api/auth/login`, { email, password });
       if (res.status === 200) {
         const data = res.data;
         localStorage.setItem("token", data.token);
@@ -45,7 +46,7 @@ const LoginPage = ({
 
   const handleGithubLogin = () => {
     // Redirect to backend GitHub OAuth
-    window.location.href = `${API_BASE}/github`;
+    window.location.href = `${API_BASE}/api/auth/github`;
   };
 
   return (
@@ -59,7 +60,7 @@ const LoginPage = ({
       <Background />
       <Navbar setCurrentPage={setCurrentPage} />
 
-      <div className="bg-white/50 backdrop-blur-md border border-white/30 p-10 rounded-3xl shadow-2xl w-96 animate-fadeIn scale-95 hover:scale-100 transition-transform duration-500 z-10">
+      <div className="bg-white/50 backdrop-blur-md border border-white/30 p-10 rounded-3xl shadow-2xl w-[90%] max-w-sm animate-fadeIn scale-95 hover:scale-100 transition-transform duration-500 z-10 mx-4">
         <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 animate-bounce">
           Login
         </h2>

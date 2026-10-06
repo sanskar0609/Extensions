@@ -3,6 +3,9 @@ import { ChevronRight, Menu, X, Zap, Shield, Code } from "lucide-react";
 import Silk from "./ui/Silk"; // Make sure the path is correct
 import TextType from "./ui/TextType.jsx";
 import logo from "../assets/logo.png";
+import Footer from "./Footer.jsx";
+import Navbar from "./Navbar.jsx";
+
 const LandingPage = ({ setCurrentPage }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -21,66 +24,7 @@ const LandingPage = ({ setCurrentPage }) => {
 
       {/* Main Content */}
       <div className="relative z-10 min-h-screen">
-        <nav className="bg-white/20 backdrop-blur-md fixed w-full z-50 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center space-x-2">
-                <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  <img
-                    src={logo} // import logo from your assets
-                    alt="ExtensionHub Logo"
-                    className="w-40 h-15 object-cover"
-                  />
-                </span>
-              </div>
-
-              <div className="hidden md:flex space-x-4">
-                <button
-                  onClick={() => setCurrentPage("login")}
-                  className="px-6 py-2 text-white-700 hover:text-white-600 font-medium bg-transparent"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => setCurrentPage("signup")}
-                  className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium"
-                >
-                  Sign Up
-                </button>
-              </div>
-
-              <button
-                className="md:hidden"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                {mobileMenuOpen ? <X /> : <Menu />}
-              </button>
-            </div>
-          </div>
-        </nav>
-
-        {mobileMenuOpen && (
-          <div className="md:hidden fixed inset-0 z-40 bg-white pt-20 px-4">
-            <button
-              onClick={() => {
-                setCurrentPage("login");
-                setMobileMenuOpen(false);
-              }}
-              className="w-full py-3 text-white-700 hover:bg-gray-100 mb-2"
-            >
-              Login
-            </button>
-            <button
-              onClick={() => {
-                setCurrentPage("signup");
-                setMobileMenuOpen(false);
-              }}
-              className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg"
-            >
-              Sign Up
-            </button>
-          </div>
-        )}
+        <Navbar setCurrentPage={setCurrentPage} />
 
         <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white">
@@ -141,6 +85,9 @@ const LandingPage = ({ setCurrentPage }) => {
           ))}
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer setCurrentPage={setCurrentPage} />
     </div>
   );
 };
